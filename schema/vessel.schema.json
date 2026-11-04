@@ -1,0 +1,48 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://github.com/AhumLabs-Pvt-Ltd/maritime-context-pack/schema/vessel.schema.json",
+  "title": "Vessel",
+  "description": "A vessel and the certificates it holds.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "imo",
+    "name",
+    "flag",
+    "vessel_type",
+    "gross_tonnage",
+    "year_built",
+    "owner",
+    "manager",
+    "class_society",
+    "synthetic",
+    "certificates"
+  ],
+  "properties": {
+    "imo": {
+      "type": "string",
+      "pattern": "^IMO[0-9]{7}$",
+      "description": "IMO number. Synthetic numbers in this repo start with IMO0 and fail the check digit, so they can never match a real ship."
+    },
+    "name": { "type": "string", "minLength": 1, "maxLength": 80 },
+    "flag": {
+      "type": "string",
+      "pattern": "^[A-Z]{2}$",
+      "description": "Flag state, ISO 3166-1 alpha-2."
+    },
+    "vessel_type": {
+      "type": "string",
+      "enum": ["bulk_carrier", "oil_tanker", "chemical_tanker", "container_ship", "general_cargo"]
+    },
+    "gross_tonnage": { "type": "integer", "minimum": 1 },
+    "year_built": { "type": "integer", "minimum": 1900, "maximum": 2100 },
+    "owner": { "type": "string", "minLength": 1 },
+    "manager": { "type": "string", "minLength": 1 },
+    "class_society": { "type": "string", "minLength": 1 },
+    "synthetic": { "type": "boolean" },
+    "certificates": {
+      "type": "array",
+      "items": { "$ref": "certificate.schema.json" }
+    }
+  }
+}

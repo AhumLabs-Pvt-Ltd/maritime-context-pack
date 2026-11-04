@@ -1,0 +1,62 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://github.com/AhumLabs-Pvt-Ltd/maritime-context-pack/schema/certificate.schema.json",
+  "title": "Certificate",
+  "description": "One statutory certificate held by one vessel. Status (valid, expiring, expired) is derived from expires_on and is not stored.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "certificate_id",
+    "vessel_imo",
+    "type",
+    "certificate_number",
+    "issued_by",
+    "issued_on",
+    "expires_on",
+    "synthetic"
+  ],
+  "properties": {
+    "certificate_id": {
+      "type": "string",
+      "pattern": "^[A-Za-z0-9][A-Za-z0-9_-]{2,63}$",
+      "description": "Unique identifier for this record."
+    },
+    "vessel_imo": {
+      "type": "string",
+      "pattern": "^IMO[0-9]{7}$",
+      "description": "IMO number of the vessel that holds the certificate."
+    },
+    "type": {
+      "type": "string",
+      "enum": [
+        "certificate-of-registry",
+        "international-load-line-certificate",
+        "safety-management-certificate",
+        "iopp-certificate",
+        "cargo-ship-safety-construction-certificate"
+      ],
+      "description": "Matches the id of a card in knowledge/certificates/."
+    },
+    "certificate_number": { "type": "string", "minLength": 1, "maxLength": 64 },
+    "issued_by": {
+      "type": "string",
+      "minLength": 1,
+      "description": "Flag administration or recognized organization that issued it."
+    },
+    "issued_on": { "type": "string", "format": "date" },
+    "expires_on": {
+      "type": ["string", "null"],
+      "format": "date",
+      "description": "Null only for certificates with no expiry date, such as some permanent registry certificates."
+    },
+    "last_annual_survey_on": { "type": "string", "format": "date" },
+    "interim": {
+      "type": "boolean",
+      "description": "True for interim or provisional certificates."
+    },
+    "synthetic": {
+      "type": "boolean",
+      "description": "True for made-up data. Every record in this repository must be synthetic."
+    }
+  }
+}
